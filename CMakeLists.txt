@@ -9,6 +9,8 @@ project(my_custom_srv_msg_pkg)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+  std_msgs
+  message_generation
 )
 
 ## System dependencies are found with CMake's conventions
@@ -57,6 +59,10 @@ find_package(catkin REQUIRED COMPONENTS
 #   Service1.srv
 #   Service2.srv
 # )
+add_service_files(
+  FILES
+  MyCustomServiceMessage.srv
+)
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -70,6 +76,10 @@ find_package(catkin REQUIRED COMPONENTS
 #   DEPENDENCIES
 #   std_msgs  # Or other packages containing msgs
 # )
+generate_messages(
+  DEPENDENCIES
+  std_msgs  # Or other packages containing msgs
+)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -103,7 +113,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES my_custom_srv_msg_pkg
-#  CATKIN_DEPENDS roscpp
+ CATKIN_DEPENDS roscpp
 #  DEPENDS system_lib
 )
 
