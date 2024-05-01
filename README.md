@@ -6,8 +6,56 @@ Defined in [`srv/MyCustomServiceMessage.srv`](srv/MyCustomServiceMessage.srv)
 
 #### Message generation
 
-Generated upon compiling the message with
-`catkin_make --only-pkg-with-deps my_custom_srv_msg_pkg`
+Generated upon compiling the message with  
+`catkin_make --only-pkg-with-deps my_custom_srv_msg_pkg`  
+
+They are stored in `~catkin/devel/include` and can be used by other packages:
+```
+user:~/catkin_ws/devel/include$ tree
+.
+|-- my_custom_srv_msg_pkg
+|   |-- MyCustomServiceMessage.h
+|   |-- MyCustomServiceMessageRequest.h
+|   `-- MyCustomServiceMessageResponse.h
+`-- topic_subscriber_pkg
+    `-- Age.h
+
+2 directories, 4 files
+user:~/catkin_ws/devel/include$
+```
+
+##### `CMakeLists.txt` requirements
+```
+find_package(catkin REQUIRED COMPONENTS
+  roscpp
+  roslib
+  my_custom_srv_msg_pkg
+)
+```
+and
+```
+catkin_package(
+ CATKIN_DEPENDS roscpp roslib my_custom_srv_msg_pkg
+)
+```
+
+##### `Package.xml` requirements
+
+```xml
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>roscpp</build_depend>
+  <build_export_depend>roscpp</build_export_depend>
+  <exec_depend>roscpp</exec_depend>
+
+  <build_depend>roslib</build_depend>
+  <build_export_depend>roslib</build_export_depend>
+  <exec_depend>roslib</exec_depend>
+
+  <build_depend>my_custom_srv_msg_pkg</build_depend>
+  <build_export_depend>my_custom_srv_msg_pkg</build_export_depend>
+  <exec_depend>rosmy_custom_srv_msg_pkglib</exec_depend>
+```
 
 #### Message usage
 
